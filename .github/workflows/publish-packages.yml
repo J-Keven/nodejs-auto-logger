@@ -1,0 +1,83 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Publish Node.js Package
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: release-generate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get Current Version
+        id: get_version
+        run: |
+          python3 -c '
+          import re
+
+          with open("change.log", "r") as file:
+              content = file.read()
+
+          version = re.search(r"version (\d+\.\d+\.\d+)", content).group(1)
+          description = re.search(r"version {}(.+?)(?=version \d+\.\d+\.\d+|$)".format(version), content, re.DOTALL).group(1).strip()
+
+          print(f"Current Version: {version}")
+          print(f"Description: {description}")
+
+          print("::set-output name=version::" + version)
+          print("::set-output name=description::" + description)
+          '
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: v${{ steps.get_version.outputs.version }}
+          body: |
+            Release v${{ steps.get_version.outputs.version }}
+            ${{ steps.get_version.outputs.description }}
+            Release generated automatically by GitHub Actions.
+
+  publish-package:
+    runs-on: ubuntu-latest
+    environment: publish-package
+    needs: release
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: https://npm.pkg.github.com/
+      - run: |
+          yarn
+          yarn build
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  remove-release:
+    runs-on: ubuntu-latest
+    needs: publish-package
+    if: ${{ failure() }}
+    environment: release-generate
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        id: delete_release
+        name: Delete Release
+        with:
+          operation: delete
+          tag_name: v${{ needs.release.outputs.create_release.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,6 @@
 {
-  "name": "@gestao-quatro-ponto-zero/g4-logger",
-  "version": "2.1.2",
+  "name": "@J-keven/ezy-logger",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "author": "<j.nunes@g4educacao.com>",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gestao-Quatro-Ponto-Zero/g4-idp-logger.git"
+    "url": "https://github.com/J-Keven/ezy-logger.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/  "
