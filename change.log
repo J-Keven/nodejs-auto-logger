@@ -1,0 +1,52 @@
+- version 2.1.2
+  - Resolve uma falha de segurança existentes nas versões antigas do dd-trace
+- version 2.1.1
+- version 2.0.0
+  - Essa alteração remove a estratégia de singleton para criação do transport do datadog. Agora o transport é criado para cada nova instância da classe Logger. Além disso, ajusto o método `autolog` para enviar um timestamp gerado pelo Date.now().
+- version 1.10.0
+  - test
+- version 1.9.0
+  - test
+- version 1.8.10
+  - test
+- version 1.7.4
+  - Adcionando estratégia para ignorar o result log no autolog.
+- version 1.7.3
+  - Adcionando estratégia para ignorar o result log no autolog.
+- version 1.7.2
+  - Adcionando estratégia para ignorar o result log no autolog.
+- version 1.7.2
+  - Removendo o uso de async/await e adicionando o uso de .then/.catch para trabalhar com funções assíncronas. Esse ajuste foi necessário para evitar que o `autolog` altere funções síncronas para assíncronas.
+- version 1.7.0
+  - Adcionando estratégia para ignorar o result log no autolog.
+- version 1.6.1
+  - Adicionando memoization para evitar que a recursividade de funções cause um loop infinito.
+- version 1.6.0
+  - Adicionando memoization para evitar que a recursividade de funções cause um loop infinito.
+  - Acicionando a geração de novos trace a cada autolog.
+- version 1.5.5
+  - removendo o log de args de funções autologáveis.
+- version 1.5.4
+  - fazendo copia do objeto de configuração para não alterar o objeto original na anonimização
+- version 1.5.2
+  - fazendo copia do objeto de configuração para não alterar o objeto original na anonimização
+- version 1.5.1
+  - fazendo copia do objeto de configuração para não alterar o objeto original na anonimização
+- version 1.5.0
+  - adicionando validações para gerar logs de info e error baseado na response coletada dos métodos no autolog.
+- version 1.4.2
+  - fazendo copia do objeto de configuração para não alterar o objeto original na anonimização
+- version 1.4.1
+  - Adiciona a utilização da variável DATADOG_INTEGRATION para definir o tipo de integração
+- version 1.4.0
+  - Adiciona a utilização da variável DATADOG_INTEGRATION para definir o tipo de integração
+- version 1.3.1
+  - Ajustando singleton para criação do datadog transport
+- version 1.3.0
+  - Adicionando o arquivos de tipagem .d.ts
+- version 1.2.0
+  - Adicionando o arquivos de tipagem .d.ts
+- version 1.1.0
+  - Adicionando o arquivos de tipagem .d.ts
+- version 1.0.1
+  - Adicionando o arquivo `change.log`

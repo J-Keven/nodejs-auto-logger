@@ -1,0 +1,2 @@
+#
+# Fluxo lógico da lib
